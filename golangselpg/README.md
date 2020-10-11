@@ -182,7 +182,9 @@ func BenchmarkUsage(b *testing.B) {
 }
 ```
 运行结果如下：
+
 ![TestUsage](https://img-blog.csdnimg.cn/20201011234048398.png)
+
 ![BenchmarkUsage](https://img-blog.csdnimg.cn/20201011233855131.png)
 测试通过
 #### 测试GetArgs
@@ -212,7 +214,9 @@ func TestGetArgs(t *testing.T) {
 	}
 }
 ```
-运行结果如下：![TestGetArgs](https://img-blog.csdnimg.cn/20201011234238986.png)
+运行结果如下：
+
+![TestGetArgs](https://img-blog.csdnimg.cn/20201011234238986.png)
 #### 测试CheckArgs
 对CheckArgs进行函数测试和性能测试
 
@@ -235,7 +239,9 @@ func BenchmarkCheckArgs(b *testing.B) {
 }
 ```
 测试结果如下：
+
 ![TestCheckArgs](https://img-blog.csdnimg.cn/20201011235028273.png)
+
 ![BenchmarkCheckArgs](https://img-blog.csdnimg.cn/20201011235106373.png)
 #### 测试Output
 对Output进行函数测试和性能测试
@@ -263,7 +269,9 @@ func BenchmarkOutput(b *testing.B) {
 }
 ```
 测试结果如下：
+
 ![TestOutput](https://img-blog.csdnimg.cn/2020101123530823.png)
+
 ![BenchmarkOutput](https://img-blog.csdnimg.cn/20201011235354516.png)
 ##### 打印机输出
 这里使用了虚拟打印机Cups-PDF进行打印，在我的虚拟机中，"PDF"为一个虚拟打印机
@@ -293,7 +301,9 @@ func BenchmarkOutputWithDestination(b *testing.B) {
 }
 ```
 测试结果如下：
+
 ![TestOutputWithDestination](https://img-blog.csdnimg.cn/20201011235703695.png)
+
 ![BenchmarkOutputWithDestination](https://img-blog.csdnimg.cn/2020101123580635.png)
 #### 测试Excute
 对Excute进行函数测试和性能测试
@@ -320,7 +330,9 @@ func BenchmarkExcute(b *testing.B) {
 }
 ```
 测试结果如下：
+
 ![TestExcute](https://img-blog.csdnimg.cn/20201011235952983.png)
+
 ![BenchmarkExcute](https://img-blog.csdnimg.cn/20201012000033553.png)
 
 ### 功能测试
