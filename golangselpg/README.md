@@ -186,7 +186,7 @@ func BenchmarkUsage(b *testing.B) {
 ![TestUsage](https://img-blog.csdnimg.cn/20201011234048398.png)
 
 ![BenchmarkUsage](https://img-blog.csdnimg.cn/20201011233855131.png)
-测试通过
+
 #### 测试GetArgs
 对GetArgs进行函数测试，这里不能性能测试，因为pflags需要使用命令行传参，所以不进行性能测试。
 
