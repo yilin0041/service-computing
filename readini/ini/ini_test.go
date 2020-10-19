@@ -7,7 +7,7 @@ import (
 func TestSetConfig(t *testing.T) {
 	SetConfig("init.ini")
 	if !system {
-		t.Errorf("[Error]System")
+		t.Errorf("[Warning]System is Windows,Please rewrite TestSetConfig.You can normaly use this package")
 	}
 }
 
