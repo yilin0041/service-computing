@@ -186,7 +186,7 @@ func BenchmarkUsage(b *testing.B) {
 ![TestUsage](https://img-blog.csdnimg.cn/20201011234048398.png)
 
 ![BenchmarkUsage](https://img-blog.csdnimg.cn/20201011233855131.png)
-测试通过
+
 #### 测试GetArgs
 对GetArgs进行函数测试，这里不能性能测试，因为pflags需要使用命令行传参，所以不进行性能测试。
 
@@ -417,3 +417,6 @@ selpg 的标准输出透明地被 shell／内核重定向，成为“other_comma
 测试结果如下：
 
 ![test12](https://img-blog.csdnimg.cn/20201012005037639.png)
+
+### 总结
+本次实验是go语言的Linux命令行开发任务，即实现一个selpg程序用来读取文件页到指定位置。实验的难点在于将内容通过管道输出到打印机，需要阅读大量的代码和源文件才能解决。这里，我使用了selpg的c语言代码进行修改和优化来完成go语言版本，虽然在编程过程中可能会遇到一些困难，但是只要仔细阅读老师给出的参考资料，问题还是很容易解决的。
