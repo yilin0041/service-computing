@@ -34,7 +34,6 @@ enforce_domain = true
 ## 注意事项
 - 本次开发使用环境为linux，故不适配Windows。
 - api文档使用godoc生成
-- 
 ## api文档
 api文档见同目录下：api文档.pdf
 ## 代码分析
