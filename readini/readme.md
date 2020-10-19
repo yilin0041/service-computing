@@ -32,7 +32,7 @@ http_port = 9999
 enforce_domain = true
 ```
 ## 注意事项
-- 本次开发使用环境为linux，故不适配Windows。
+- 本次开发使用环境为linux,但已经适配Windows
 - api文档使用godoc生成
 ## api文档
 api文档见同目录下：api文档.pdf
@@ -45,6 +45,20 @@ api文档见同目录下：api文档.pdf
 type Config struct {
 	filepath string
 	confList []map[string]map[string]string
+}
+```
+### 初始化函数
+初始化函数用于判断当前的系统，这里主要用于不同的注释格式。
+```go
+func init() {
+	sysType := runtime.GOOS
+	if sysType == "linux" {
+		system = true
+	}
+
+	if sysType == "windows" {
+		system = false
+	}
 }
 ```
 ### 判断section唯一性
@@ -96,6 +110,12 @@ func (c *Config) unique(conf string) bool {
 			break
 		}
 	}
+```
+首先判断系统信息
+```go
+		if !system && string(l[0]) == "#" || system && string(l[0]) == ";" {
+			return nil, errors.New("System Error")
+		}
 ```
 如果读到空行或者注释则直接跳过
 
@@ -414,8 +434,23 @@ func TestWatch(t *testing.T) {
 ##### Benchmark
 ![Benchmark](https://img-blog.csdnimg.cn/20201019151017618.png)
 
+#### 额外系统测试
+利用随便一个测试(这里使用的TestSetConfig)liunx系统
+```go
+func TestSetConfig(t *testing.T) {
+	SetConfig("init.ini")
+	if !system {
+		t.Errorf("[Error]System")
+	}
+}
+```
+测试结果如下：
+
+![Linux](https://img-blog.csdnimg.cn/20201019212739176.png#pic_center)
+
+发现system为true即Linux系统，Windows系统同理
 ### 功能测试（简单的使用案例）
-功能测试的main函数如下所示：
+功能测试(Linux下)的main函数如下所示：
 
 ```go
 package main

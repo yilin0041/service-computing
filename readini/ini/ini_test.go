@@ -6,6 +6,9 @@ import (
 
 func TestSetConfig(t *testing.T) {
 	SetConfig("init.ini")
+	if !system {
+		t.Errorf("[Error]System")
+	}
 }
 
 func BenchmarkSetConfig(b *testing.B) {

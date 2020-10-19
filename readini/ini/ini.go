@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -17,6 +18,18 @@ type Config struct {
 }
 
 var lasttime int64
+var system bool
+
+func init() {
+	sysType := runtime.GOOS
+	if sysType == "linux" {
+		system = true
+	}
+
+	if sysType == "windows" {
+		system = false
+	}
+}
 
 const (
 	notFindValue  = "[Error]No This Value\n"
@@ -68,7 +81,10 @@ func (c *Config) readList() ([]map[string]map[string]string, error) {
 				break
 			}
 		}
-		if (len(l) == 0) || (string(l[0]) == "#") {
+		if (len(l) != 0) && (!system && string(l[0]) == "#" || system && string(l[0]) == ";") {
+			return nil, errors.New("System Error")
+		}
+		if (len(l) == 0) || (system && string(l[0]) == "#") || (!system && string(l[0]) == ";") {
 			continue
 		} else if l[0] == '[' && l[len(l)-1] == ']' {
 			section = strings.TrimSpace(l[1 : len(l)-1])
