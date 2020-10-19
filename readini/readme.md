@@ -87,66 +87,66 @@ func (c *Config) unique(conf string) bool {
 首先需要读取一行数据。这在上次实验中已经运用过，这里不再赘述。
 
 ```go
-		l, err := buf.ReadString('\n')
-		l = strings.TrimSpace(l)
-		if err != nil {
-			if err != io.EOF {
-				return nil, err
-			}
-			if len(l) == 0 {
-				break
-			}
+	l, err := buf.ReadString('\n')
+	l = strings.TrimSpace(l)
+	if err != nil {
+		if err != io.EOF {
+			return nil, err
 		}
+		if len(l) == 0 {
+			break
+		}
+	}
 ```
 如果读到空行或者注释则直接跳过
 
 ```go
 if (len(l) == 0) || (string(l[0]) == "#") {
-			continue
-		}
+		continue
+	}
 ```
 如果读到`[`或`]`则说明读到了section，需要进行初始化设置，并将first置`false`。
 
 ```go
 else if l[0] == '[' && l[len(l)-1] == ']' {
-			section = strings.TrimSpace(l[1 : len(l)-1])
-			data = make(map[string]map[string]string)
-			data[section] = make(map[string]string)
-			first = false
+	section = strings.TrimSpace(l[1 : len(l)-1])
+	data = make(map[string]map[string]string)
+	data[section] = make(map[string]string)
+	first = false
 		} 
 ```
 如果`first`为true且经过上两次判断可知不是空行、注释也不是section，那么就说明是全局设置，所以我们要进行单独读取。开辟一个新的section同时把它置为空，然后进行读取即可。
 
 ```go
 else if first {
-			section = ""
-			data = make(map[string]map[string]string)
-			data[section] = make(map[string]string)
-			first = false
-			i := strings.IndexAny(l, "=")
-			if i == -1 {
-				continue
-			}
-			value := strings.TrimSpace(l[i+1 : len(l)])
-			data[section][strings.TrimSpace(l[0:i])] = value
-			if c.unique(section) == true {
-				c.confList = append(c.confList, data)
-			}
+	section = ""
+	data = make(map[string]map[string]string)
+	data[section] = make(map[string]string)
+	first = false
+	i := strings.IndexAny(l, "=")
+	if i == -1 {
+		continue
+	}
+	value := strings.TrimSpace(l[i+1 : len(l)])
+	data[section][strings.TrimSpace(l[0:i])] = value
+	if c.unique(section) == true {
+		c.confList = append(c.confList, data)
+	}
 		} 
 ```
 最后是为key=value字段，我们直接读取即可。最后需要判断一下该section是否为新的section，如果是则需要将其加入map组中。
 
 ```go
 else {
-			i := strings.IndexAny(l, "=")
-			if i == -1 {
-				continue
-			}
-			value := strings.TrimSpace(l[i+1 : len(l)])
-			data[section][strings.TrimSpace(l[0:i])] = value
-			if c.unique(section) == true {
-				c.confList = append(c.confList, data)
-			}
+	i := strings.IndexAny(l, "=")
+	if i == -1 {
+		continue
+	}
+	value := strings.TrimSpace(l[i+1 : len(l)])
+	data[section][strings.TrimSpace(l[0:i])] = value
+	if c.unique(section) == true {
+		c.confList = append(c.confList, data)
+	}
 		}
 ```
 一切完成后，返回得到的map即可。（错误返回空）
