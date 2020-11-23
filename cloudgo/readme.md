@@ -108,10 +108,10 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 }
 ```
 首先我们需要在服务器上创建目录，以存放静态内容。例如：
->assets(静态文件虚拟根目录)
-  |-- js
-  |-- images
-  +-- css
+>assets(静态文件虚拟根目录)<br>
+  |-- js<br>
+  |-- images<br>
+  +-- css<br>
 
 然后，我们运行`go run main.go`，结果如下所示
 ![file](https://img-blog.csdnimg.cn/20201123183225358.png)
@@ -129,6 +129,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 经测试，静态文件功能可以访问
 
 #### 简单js访问功能
+
 随着 web 页面技术的进步，页面中大量使用 javascript。 所有我们添加一个服务：apitest.go
 
 ```go
@@ -151,8 +152,11 @@ func apiTestHandler(formatter *render.Render) http.HandlerFunc {
 }
 ```
 用 curl 测试输出
+
 ![test](https://img-blog.csdnimg.cn/20201123183752235.png)
+
 在`assets`中创建一个文件`jsonindex.html`，使用简单的代码进行测试，代码如下：
+
 
 ```html
 <html>
@@ -183,12 +187,15 @@ $(document).ready(function() {
     });
 });
 ```
+
 最后在server中添加路由
 
 ```go
 mx.HandleFunc("/api/test", apiTestHandler(formatter)).Methods("GET")
 ```
+
 然后运行打开`jsonindex.html`，结果如下：
+
 ![jsontest](https://img-blog.csdnimg.cn/2020112318442541.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 
 可以看到后台的访问有js的接口，证明数据是通过js传入的
@@ -215,6 +222,7 @@ mx.HandleFunc("/api/test", apiTestHandler(formatter)).Methods("GET")
 </body>
 </html>
 ```
+
 新建一个`homeHandler.go`来进行返回
 
 ```go
@@ -237,12 +245,15 @@ func homeHandler(formatter *render.Render) http.HandlerFunc {
 }
 
 ```
+
 我们使用 formatter 的 HTML 直接将数据注入模板，并输出到浏览器。这里创建一个路由
 
 ```go
 mx.HandleFunc("/index", homeHandler(formatter))
 ```
+
 下面进行一下测试，发现可以正常运行：
+
 ![test](https://img-blog.csdnimg.cn/20201123185716851.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 
 发现功能正常
@@ -287,6 +298,7 @@ mx.HandleFunc("/index", homeHandler(formatter))
 </body>
 </html>
 ```
+
 这里css不是重点，故不再赘述。
 
 新建一个`login.go`来进行返回，这里设定账户为`sunylin`，密码为`123`，如果正确则进入`user.html`模板，如果错误则进入`error.html`模板
@@ -313,6 +325,7 @@ func login(formatter *render.Render) http.HandlerFunc {
 	}
 }
 ```
+
 user模板显示正确的账号和密码，代码如下
 
 ```html
@@ -339,7 +352,9 @@ user模板显示正确的账号和密码，代码如下
 </body>
 </html>
 ```
+
 error模板则显示报错，代码如下
+
 
 ```html
 <!DOCTYPE html>
@@ -385,6 +400,7 @@ mx.HandleFunc("/error", login(formatter))
 ![test](https://img-blog.csdnimg.cn/2020112319215513.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 
 ##### 访问文件系统中的`jsonindex.html`
+
 ![test](https://img-blog.csdnimg.cn/20201123193258435.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 
 ##### index页面
@@ -402,7 +418,9 @@ mx.HandleFunc("/error", login(formatter))
 
 ![test](https://img-blog.csdnimg.cn/20201123192822841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 #### ab测试
+
 在文件系统的测试中有结果的详细解释
+
 ##### 文件系统
 
 首先对文件系统做ab测试
@@ -410,9 +428,13 @@ mx.HandleFunc("/error", login(formatter))
 ```bash
 ab -n 100000 -c 100 http://localhost:8080/
 ```
+
 这里发送10万请求，100并发
+
 测试结果如下：
+
 ![test](https://img-blog.csdnimg.cn/20201123194538137.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
+
 结果解释：
 - Concurrency Level:并发量
 - Time taken for tests: 测试用时
@@ -432,6 +454,7 @@ ab -n 100000 -c 100 http://localhost:8080/
 ```bash
 ab -n 10000 -c 100 http://localhost:8080/jsonindex.html
 ```
+
 ![test](https://img-blog.csdnimg.cn/20201123195934402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 ##### index页面
 ```bash
@@ -444,22 +467,28 @@ ab -n 10000 -c 100 http://localhost:8080/index
 ```bash
 ab -n 10000 -c 100 http://localhost:8080/login
 ```
+
 ![test](https://img-blog.csdnimg.cn/2020112319524220.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 ##### 用户页面
 ```bash
 ab -n 10000 -c 100 http://localhost:8080/user
 ```
+
 ![test](https://img-blog.csdnimg.cn/20201123200138513.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
 
 ##### 错误页
 ```bash
 ab -n 10000 -c 100 http://localhost:8080/error
 ```
+
 ![test](https://img-blog.csdnimg.cn/20201123200217855.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzMjgzMjY1,size_16,color_FFFFFF,t_70)
+
 ### 源代码阅读
 为了更好的阅读，参考了老师给出的参考书：[Go如何使得Web工作](https://gitee.com/astaxie/build-web-application-with-golang/blob/master/zh/03.3.md)
 首先，我们一定要先了解是Go实现Web服务的工作模式的流程图，如下所示：
+
 ![web](https://img-blog.csdnimg.cn/img_convert/cebdee002ad171a90ac9e6287f0b774c.png)
+
 书中告诉我们，http包执行流程大致为
 1. 创建Listen Socket, 监听指定的端口, 等待客户端请求到来。
 
